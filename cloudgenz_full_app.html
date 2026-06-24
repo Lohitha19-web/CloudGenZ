@@ -1,0 +1,445 @@
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#060e1f;--navy2:#0b1628;--navy3:#0f1e35;
+  --blue:#1a7cff;--blue2:#2563eb;--cyan:#00d4ff;--teal:#00e5c3;--green:#22c55e;
+  --text:#e8edf5;--muted:#7a8ea8;--border:rgba(255,255,255,0.07);
+  --card:rgba(255,255,255,0.04);--card-hover:rgba(255,255,255,0.08);
+  --modal-bg:rgba(6,14,31,0.97);
+  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+}
+body{background:var(--navy);color:var(--text);font-family:var(--fb);min-height:100vh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+nav{position:sticky;top:0;z-index:200;background:rgba(6,14,31,0.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--fh);font-weight:800;font-size:1.2rem;color:#fff;cursor:pointer}
+.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.nav-links{display:flex;gap:4px}
+.nl{background:none;border:none;color:var(--muted);font-family:var(--fb);font-size:.85rem;cursor:pointer;padding:6px 13px;border-radius:6px;transition:all .2s}
+.nl:hover,.nl.active{color:#fff;background:var(--card-hover)}
+.nav-cta{background:var(--blue);color:#fff;border:none;font-family:var(--fb);font-size:.85rem;font-weight:500;cursor:pointer;padding:8px 18px;border-radius:8px;transition:all .2s}
+.nav-cta:hover{background:var(--blue2)}
+
+.page{display:none;animation:fi .3s ease}
+.page.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{min-height:calc(100vh - 64px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(26,124,255,0.13),transparent),radial-gradient(ellipse 40% 40% at 80% 60%,rgba(0,212,255,0.06),transparent),radial-gradient(ellipse 40% 40% at 20% 70%,rgba(0,229,195,0.06),transparent);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.022) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent)}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(26,124,255,0.14);border:1px solid rgba(26,124,255,0.3);color:#7bbfff;font-size:.72rem;font-weight:600;padding:5px 14px;border-radius:100px;margin-bottom:1.75rem;letter-spacing:.04em}
+.dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+h1{font-family:var(--fh);font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;line-height:1.06;letter-spacing:-.03em;margin-bottom:1.4rem;max-width:780px}
+h1 .acc{background:linear-gradient(90deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:var(--muted);font-size:1.05rem;max-width:500px;line-height:1.75;margin-bottom:2.5rem}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn-p{background:var(--blue);color:#fff;border:none;font-family:var(--fb);font-size:.9rem;font-weight:500;cursor:pointer;padding:11px 26px;border-radius:10px;transition:all .2s;display:flex;align-items:center;gap:7px}
+.btn-p:hover{background:var(--blue2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,124,255,.35)}
+.btn-g{background:transparent;color:var(--text);border:1px solid var(--border);font-family:var(--fb);font-size:.9rem;font-weight:500;cursor:pointer;padding:11px 26px;border-radius:10px;transition:all .2s;display:flex;align-items:center;gap:7px}
+.btn-g:hover{border-color:rgba(255,255,255,.2);background:var(--card)}
+.hero-stats{display:flex;gap:3rem;margin-top:4rem;padding-top:3rem;border-top:1px solid var(--border)}
+.stat-num{font-family:var(--fh);font-size:1.9rem;font-weight:700;color:#fff}
+.stat-lbl{font-size:.78rem;color:var(--muted);margin-top:2px}
+
+/* SECTION */
+.sec{padding:5rem 2rem;max-width:1100px;margin:0 auto}
+.sec-lbl{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:.6rem}
+.sec-title{font-family:var(--fh);font-size:clamp(1.7rem,4vw,2.4rem);font-weight:700;margin-bottom:.9rem;line-height:1.15}
+.sec-sub{color:var(--muted);font-size:.95rem;max-width:480px;line-height:1.75;margin-bottom:3rem}
+
+/* SERVICES GRID */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.25rem}
+.svc-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.6rem;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.svc-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));transform:scaleX(0);transition:transform .3s;transform-origin:left}
+.svc-card:hover{border-color:rgba(26,124,255,.35);background:var(--card-hover);transform:translateY(-3px)}
+.svc-card:hover::after{transform:scaleX(1)}
+.svc-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.1rem}
+.svc-card h3{font-family:var(--fh);font-size:1.05rem;font-weight:700;margin-bottom:.45rem}
+.svc-card p{color:var(--muted);font-size:.84rem;line-height:1.65;margin-bottom:1rem}
+.svc-footer{display:flex;align-items:center;justify-content:space-between}
+.svc-tag{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--muted);font-size:.68rem;font-weight:600;padding:3px 8px;border-radius:4px;letter-spacing:.04em}
+.svc-arrow{color:var(--blue);font-size:.8rem;display:flex;align-items:center;gap:4px;font-size:.8rem;transition:gap .2s}
+.svc-card:hover .svc-arrow{gap:8px}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:var(--navy2);border:1px solid rgba(26,124,255,.2);border-radius:20px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;position:relative}
+.modal-head{padding:2rem 2rem 1.5rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--navy2);z-index:2;border-radius:20px 20px 0 0}
+.modal-head-inner{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.modal-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.modal-title-block h2{font-family:var(--fh);font-size:1.4rem;font-weight:700;margin-bottom:4px}
+.modal-title-block p{color:var(--muted);font-size:.84rem}
+.modal-close{background:var(--card);border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);flex-shrink:0;transition:all .2s;font-size:.9rem}
+.modal-close:hover{background:var(--card-hover);color:var(--text)}
+.modal-body{padding:1.75rem 2rem 2rem}
+.mod-section{margin-bottom:1.75rem}
+.mod-section h4{font-family:var(--fh);font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.9rem}
+.topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.topic-item{display:flex;align-items:center;gap:8px;font-size:.84rem;color:var(--muted);background:var(--card);border-radius:8px;padding:7px 10px}
+.topic-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.mod-tags{display:flex;flex-wrap:wrap;gap:.5rem}
+.mod-tag{background:rgba(26,124,255,.1);border:1px solid rgba(26,124,255,.2);color:#7bbfff;font-size:.75rem;padding:4px 10px;border-radius:6px}
+.pdf-banner{background:linear-gradient(135deg,rgba(26,124,255,.12),rgba(0,212,255,.06));border:1px solid rgba(26,124,255,.25);border-radius:12px;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.pdf-info{display:flex;align-items:center;gap:12px}
+.pdf-icon{width:42px;height:42px;background:rgba(26,124,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--blue)}
+.pdf-text p{font-size:.8rem;color:var(--muted);margin-bottom:2px}
+.pdf-text span{font-size:.9rem;font-weight:500}
+.pdf-btn{background:var(--blue);color:#fff;border:none;font-family:var(--fb);font-size:.83rem;font-weight:500;cursor:pointer;padding:8px 16px;border-radius:8px;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:background .2s}
+.pdf-btn:hover{background:var(--blue2)}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.25rem}
+.team-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem 1.25rem;text-align:center;transition:all .25s;cursor:pointer}
+.team-card:hover{border-color:rgba(26,124,255,.35);background:var(--card-hover);transform:translateY(-4px)}
+.team-avatar{width:72px;height:72px;border-radius:50%;margin:0 auto 1rem;overflow:hidden;border:2px solid rgba(26,124,255,.25)}
+.team-avatar img{width:100%;height:100%;object-fit:cover}
+.team-avatar-fallback{width:72px;height:72px;border-radius:50%;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:1.4rem;font-weight:700;border:2px solid rgba(26,124,255,.25)}
+.team-name{font-family:var(--fh);font-size:.95rem;font-weight:700;margin-bottom:.25rem}
+.team-role{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+.team-portfolio{display:inline-flex;align-items:center;gap:5px;background:rgba(26,124,255,.1);border:1px solid rgba(26,124,255,.25);color:#7bbfff;font-size:.75rem;padding:5px 12px;border-radius:8px;transition:all .2s;font-weight:500}
+.team-portfolio:hover{background:rgba(26,124,255,.2)}
+
+/* ABOUT VALUE */
+.about-vals{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-bottom:3.5rem}
+.val-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem;display:flex;align-items:flex-start;gap:12px}
+.val-ic{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.val-card h4{font-size:.88rem;font-weight:600;margin-bottom:3px}
+.val-card p{font-size:.78rem;color:var(--muted);line-height:1.55}
+
+/* CONTACT */
+.contact-wrap{max-width:600px;margin:0 auto}
+.contact-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.25rem}
+.contact-row{display:flex;gap:1.25rem;margin-bottom:2rem;flex-wrap:wrap}
+.cinfo{display:flex;align-items:center;gap:10px;flex:1;min-width:190px}
+.cinfo-ic{width:38px;height:38px;background:rgba(26,124,255,.12);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--blue);flex-shrink:0}
+.cinfo p{font-size:.73rem;color:var(--muted);margin-bottom:2px}
+.cinfo span{font-size:.87rem;font-weight:500}
+.fg{margin-bottom:1.1rem}
+.fg label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:5px;font-weight:500}
+.fi{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:9px;padding:9px 13px;color:var(--text);font-family:var(--fb);font-size:.88rem;outline:none;transition:border-color .2s}
+.fi:focus{border-color:rgba(26,124,255,.5)}
+.fi::placeholder{color:var(--muted)}
+textarea.fi{height:90px;resize:vertical}
+.fsub{width:100%;background:var(--blue);color:#fff;border:none;font-family:var(--fb);font-size:.9rem;font-weight:500;cursor:pointer;padding:11px;border-radius:9px;transition:all .2s;margin-top:.4rem}
+.fsub:hover{background:var(--blue2)}
+.smsg{display:none;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#4ade80;padding:10px 14px;border-radius:9px;font-size:.82rem;margin-top:.65rem;text-align:center}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:2.25rem 2rem;text-align:center}
+.socials{display:flex;justify-content:center;gap:10px;margin-bottom:1.25rem}
+.soc{width:35px;height:35px;background:var(--card);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer;transition:all .2s;font-size:.88rem}
+.soc:hover{border-color:rgba(26,124,255,.4);color:var(--blue)}
+footer p{color:var(--muted);font-size:.78rem}
+footer a{color:var(--blue)}
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">CloudGenZ — Cloud Training Platform App</h2>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="sp('home')">
+    <div class="logo-icon">☁</div>CloudGenZ
+  </div>
+  <div class="nav-links">
+    <button class="nl active" onclick="sp('home',this)">Home</button>
+    <button class="nl" onclick="sp('services',this)">Services</button>
+    <button class="nl" onclick="sp('about',this)">About Us</button>
+    <button class="nl" onclick="sp('contact',this)">Contact</button>
+  </div>
+  <button class="nav-cta" onclick="sp('contact')">Get Started</button>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-bg"></div><div class="hero-grid"></div>
+    <div class="badge"><span class="dot"></span>Cloud Training Platform · Hyderabad</div>
+    <h1>Learn Cloud.<br>No Credit Card<br><span class="acc">Required.</span></h1>
+    <p class="hero-sub">CloudGenZ is a free, hands-on cloud learning platform built for students. Practice AWS, DevOps, Big Data and more — without barriers.</p>
+    <div class="hero-btns">
+      <button class="btn-p" onclick="sp('services')"><i class="ti ti-bolt"></i>Explore Services</button>
+      <button class="btn-g" onclick="sp('about')"><i class="ti ti-users"></i>Meet the Team</button>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">5+</div><div class="stat-lbl">Technologies</div></div>
+      <div><div class="stat-num">₹0</div><div class="stat-lbl">Cost to Start</div></div>
+      <div><div class="stat-num">6</div><div class="stat-lbl">Team Members</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div id="page-services" class="page">
+  <div class="sec">
+    <div class="sec-lbl">What We Offer</div>
+    <h2 class="sec-title">Our Services</h2>
+    <p class="sec-sub">Click any service to view the full syllabus and download the course PDF.</p>
+    <div class="svc-grid">
+      <div class="svc-card" onclick="openModal('aws')">
+        <div class="svc-icon" style="background:rgba(255,153,0,.14);color:#ff9900"><i class="ti ti-cloud"></i></div>
+        <h3>Amazon Web Services</h3>
+        <p>Innovate faster with hands-on AWS training. Core cloud infrastructure without needing a personal account.</p>
+        <div class="svc-footer"><span class="svc-tag">CORE</span><span class="svc-arrow"><i class="ti ti-file-text"></i> View Syllabus</span></div>
+      </div>
+      <div class="svc-card" onclick="openModal('cloud')">
+        <div class="svc-icon" style="background:rgba(0,212,255,.12);color:var(--cyan)"><i class="ti ti-server"></i></div>
+        <h3>Cloud Computing</h3>
+        <p>Powerful computing resources on demand. Learn virtualization, containers, and cloud architecture.</p>
+        <div class="svc-footer"><span class="svc-tag">CORE</span><span class="svc-arrow"><i class="ti ti-file-text"></i> View Syllabus</span></div>
+      </div>
+      <div class="svc-card" onclick="openModal('devops')">
+        <div class="svc-icon" style="background:rgba(0,229,195,.12);color:var(--teal)"><i class="ti ti-settings-automation"></i></div>
+        <h3>DevOps</h3>
+        <p>Build, test, deploy — faster. Master CI/CD pipelines, Docker, Kubernetes and infrastructure as code.</p>
+        <div class="svc-footer"><span class="svc-tag">TRENDING</span><span class="svc-arrow"><i class="ti ti-file-text"></i> View Syllabus</span></div>
+      </div>
+      <div class="svc-card" onclick="openModal('java')">
+        <div class="svc-icon" style="background:rgba(237,125,49,.12);color:#ed7d31"><i class="ti ti-code"></i></div>
+        <h3>Java</h3>
+        <p>Write once, run anywhere. From OOP fundamentals to enterprise Spring Boot applications.</p>
+        <div class="svc-footer"><span class="svc-tag">FOUNDATION</span><span class="svc-arrow"><i class="ti ti-file-text"></i> View Syllabus</span></div>
+      </div>
+      <div class="svc-card" onclick="openModal('bigdata')">
+        <div class="svc-icon" style="background:rgba(26,124,255,.12);color:var(--blue)"><i class="ti ti-database"></i></div>
+        <h3>Big Data</h3>
+        <p>Data integration, storage, management and advanced analytics using Hadoop, Spark and visualization tools.</p>
+        <div class="svc-footer"><span class="svc-tag">ADVANCED</span><span class="svc-arrow"><i class="ti ti-file-text"></i> View Syllabus</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="page-about" class="page">
+  <div class="sec">
+    <div class="sec-lbl">Who We Are</div>
+    <h2 class="sec-title">About CloudGenZ</h2>
+    <p class="sec-sub">A student-first cloud education platform based in Hyderabad, built to remove barriers from cloud learning.</p>
+    <div class="about-vals">
+      <div class="val-card"><div class="val-ic" style="background:rgba(26,124,255,.15);color:var(--blue)"><i class="ti ti-credit-card-off"></i></div><div><h4>No Credit Card Needed</h4><p>Practice real cloud environments with zero billing setup required.</p></div></div>
+      <div class="val-card"><div class="val-ic" style="background:rgba(0,229,195,.15);color:var(--teal)"><i class="ti ti-device-laptop"></i></div><div><h4>Browser-Based Practice</h4><p>Simulate AWS environments right in your browser — no local setup.</p></div></div>
+      <div class="val-card"><div class="val-ic" style="background:rgba(34,197,94,.15);color:var(--green)"><i class="ti ti-school"></i></div><div><h4>Student-Focused</h4><p>Designed around real barriers students face with cloud platforms.</p></div></div>
+      <div class="val-card"><div class="val-ic" style="background:rgba(255,153,0,.15);color:#ff9900"><i class="ti ti-map-pin"></i></div><div><h4>Hyderabad, India</h4><p>Sri Sai Enclave, Jeedimetla, Telangana 500067</p></div></div>
+    </div>
+    <div class="sec-lbl" style="margin-bottom:.8rem">The Team</div>
+    <h3 style="font-family:var(--fh);font-size:1.5rem;font-weight:700;margin-bottom:2rem">Meet Our People</h3>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar"><img src="https://imgs.search.brave.com/0ihTmObVo2l905uloj7HueyigI2kn3voAdEJ7m3s1lE/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9waWNz/LmNyYWl5b24uY29t/LzIwMjQtMDktMTkv/cWFtZ0gyVFhTLU9i/NnlpdWg5dkI2Zy53/ZWJw" alt="M Lohitha" onerror="this.parentNode.outerHTML='<div class=\'team-avatar-fallback\' style=\'background:rgba(26,124,255,.15);color:#7bbfff\'>ML</div>'"></div>
+        <div class="team-name">M Lohitha</div>
+        <div class="team-role">Founder</div>
+        <a href="https://mlohitha.netlify.app" target="_blank" class="team-portfolio"><i class="ti ti-external-link" style="font-size:12px"></i>Portfolio</a>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="https://easy-peasy.ai/cdn-cgi/image/quality=70,format=auto,width=300/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/a9e9d717-e535-4168-9443-503c689be129/77fea920-cdd4-4854-92f0-6e44afc994e1.png" alt="Ch Tharunima" onerror="this.parentNode.outerHTML='<div class=\'team-avatar-fallback\' style=\'background:rgba(0,229,195,.15);color:var(--teal)\'>CT</div>'"></div>
+        <div class="team-name">Ch Tharunima</div>
+        <div class="team-role">Co-Founder</div>
+        <a href="https://chtharunima.netlify.app" target="_blank" class="team-portfolio"><i class="ti ti-external-link" style="font-size:12px"></i>Portfolio</a>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="https://easy-peasy.ai/cdn-cgi/image/quality=70,format=auto,width=300/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/9b863928-0824-4fbc-ab30-8bfa77da21a4/0a3bd582-3c51-4194-821d-e8cbb06e9271.png" alt="M Rajamani" onerror="this.parentNode.outerHTML='<div class=\'team-avatar-fallback\' style=\'background:rgba(255,153,0,.15);color:#ff9900\'>MR</div>'"></div>
+        <div class="team-name">M Rajamani</div>
+        <div class="team-role">Social Media</div>
+        <a href="https://mrajamani.netlify.app" target="_blank" class="team-portfolio"><i class="ti ti-external-link" style="font-size:12px"></i>Portfolio</a>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="https://img.freepik.com/free-vector/smiling-redhaired-boy-illustration_1308-176664.jpg" alt="M Yesu" onerror="this.parentNode.outerHTML='<div class=\'team-avatar-fallback\' style=\'background:rgba(237,125,49,.15);color:#ed7d31\'>MY</div>'"></div>
+        <div class="team-name">M Yesu</div>
+        <div class="team-role">Speaker</div>
+        <a href="https://myesu.netlify.app" target="_blank" class="team-portfolio"><i class="ti ti-external-link" style="font-size:12px"></i>Portfolio</a>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://media.easy-peasy.ai/1fccc78d-e89a-4ba3-9a2b-6fca17acc699/4bbd6a5d-9d3d-498d-896c-9c2f474cf50f.png" alt="C Sumanth" onerror="this.parentNode.outerHTML='<div class=\'team-avatar-fallback\' style=\'background:rgba(34,197,94,.15);color:var(--green)\'>CS</div>'"></div>
+        <div class="team-name">C Sumanth</div>
+        <div class="team-role">Event Manager</div>
+        <a href="https://csumanth.netlify.app" target="_blank" class="team-portfolio"><i class="ti ti-external-link" style="font-size:12px"></i>Portfolio</a>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><img src="https://easy-peasy.ai/cdn-cgi/image/quality=70,format=auto,width=300/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/f8239007-7d36-45ce-a0a1-fdf91052b10e/299f5e14-73c4-4a9b-99c9-e44adbc218cf.png" alt="P Jagadish" onerror="this.parentNode.outerHTML='<div class=\'team-avatar-fallback\' style=\'background:rgba(26,124,255,.15);color:#7bbfff\'>PJ</div>'"></div>
+        <div class="team-name">P Jagadish</div>
+        <div class="team-role">Resource Collector</div>
+        <a href="https://jagadishp.netlify.app" target="_blank" class="team-portfolio"><i class="ti ti-external-link" style="font-size:12px"></i>Portfolio</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="page-contact" class="page">
+  <div class="sec">
+    <div class="sec-lbl">Get In Touch</div>
+    <h2 class="sec-title">Contact Us</h2>
+    <p class="sec-sub">Have a question or want to know more? We'd love to hear from you.</p>
+    <div class="contact-wrap">
+      <div class="contact-card">
+        <div class="contact-row">
+          <div class="cinfo"><div class="cinfo-ic"><i class="ti ti-phone"></i></div><div><p>Phone</p><span>+91 83744 99001</span></div></div>
+          <div class="cinfo"><div class="cinfo-ic"><i class="ti ti-mail"></i></div><div><p>Email</p><span>lohithamanda@shriaitech.in</span></div></div>
+        </div>
+        <div class="fg"><label>Your Name</label><input class="fi" type="text" placeholder="e.g. Nagesh Kumar"></div>
+        <div class="fg"><label>Email Address</label><input class="fi" type="email" placeholder="you@example.com"></div>
+        <div class="fg"><label>Message</label><textarea class="fi" placeholder="Tell us how we can help..."></textarea></div>
+        <button class="fsub" onclick="submitForm()">Send Message &nbsp;<i class="ti ti-send"></i></button>
+        <div class="smsg" id="smsg">✓ Message sent! We'll get back to you soon.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="socials">
+    <a href="https://www.linkedin.com/company/cloudgenz/" target="_blank" class="soc"><i class="ti ti-brand-linkedin"></i></a>
+    <div class="soc"><i class="ti ti-brand-twitter"></i></div>
+    <div class="soc"><i class="ti ti-brand-instagram"></i></div>
+  </div>
+  <p>© 2025 CloudGenZ · Hyderabad, India · Supported by <a href="https://shriaitech.in" target="_blank">Shri AI Tech</a></p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div class="modal-head-inner">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="modal-icon" id="m-icon"></div>
+          <div class="modal-title-block"><h2 id="m-title"></h2><p id="m-sub"></p></div>
+        </div>
+        <div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div>
+      </div>
+    </div>
+    <div class="modal-body" id="m-body"></div>
+  </div>
+</div>
+
+<script>
+const SERVICES = {
+  aws:{
+    title:"Amazon Web Services",sub:"Innovate Faster with AWS Cloud Services",
+    icon:'<i class="ti ti-cloud"></i>',iconBg:"rgba(255,153,0,.18)",iconColor:"#ff9900",
+    tagline:"Hands-on AWS training covering core infrastructure, compute, storage and security — no personal AWS account required.",
+    modules:[
+      {label:"Cloud Fundamentals",topics:["Cloud concepts & models","AWS Global Infrastructure","IAM & Security basics","Billing & Cost Explorer"]},
+      {label:"Compute",topics:["EC2 Instances","Auto Scaling & Load Balancing","Lambda & Serverless","Elastic Beanstalk"]},
+      {label:"Storage & Databases",topics:["S3 & Glacier","EBS & EFS","RDS & Aurora","DynamoDB & ElastiCache"]},
+      {label:"Networking",topics:["VPC & Subnets","Route 53 (DNS)","CloudFront (CDN)","API Gateway"]},
+    ],
+    skills:["AWS CLI","CloudFormation","CloudWatch","SNS & SQS","S3 Policies","EC2 Key Pairs"],
+    pdf:"AWS_CloudGenZ_Syllabus.pdf"
+  },
+  cloud:{
+    title:"Cloud Computing",sub:"Powerful Computing Resources On Demand",
+    icon:'<i class="ti ti-server"></i>',iconBg:"rgba(0,212,255,.15)",iconColor:"var(--cyan)",
+    tagline:"Understand the full spectrum of cloud computing — from virtualization basics to hybrid multi-cloud architectures.",
+    modules:[
+      {label:"Foundations",topics:["IaaS / PaaS / SaaS","Public, Private & Hybrid","Virtualization basics","Resource provisioning"]},
+      {label:"Containers",topics:["Docker fundamentals","Container networking","Docker Compose","Container registries"]},
+      {label:"Orchestration",topics:["Kubernetes architecture","Pods, Services & Deployments","Helm charts","Cluster monitoring"]},
+      {label:"Architecture",topics:["Microservices design","Fault tolerance","Disaster recovery","Cost optimisation"]},
+    ],
+    skills:["Docker","Kubernetes","Terraform","Ansible","Prometheus","Grafana"],
+    pdf:"CloudComputing_CloudGenZ_Syllabus.pdf"
+  },
+  devops:{
+    title:"DevOps",sub:"Build, Test, Deploy — Faster with DevOps",
+    icon:'<i class="ti ti-settings-automation"></i>',iconBg:"rgba(0,229,195,.14)",iconColor:"var(--teal)",
+    tagline:"Master the culture, tools and practices that bridge development and operations for continuous, reliable delivery.",
+    modules:[
+      {label:"Version Control",topics:["Git workflows","Branching strategies","GitHub / GitLab","Code review practices"]},
+      {label:"CI/CD Pipelines",topics:["Jenkins & GitHub Actions","Build automation","Test automation","Artifact management"]},
+      {label:"Infrastructure as Code",topics:["Terraform basics","Ansible playbooks","CloudFormation","Configuration management"]},
+      {label:"Monitoring & Security",topics:["Prometheus & Grafana","ELK Stack","DevSecOps basics","Incident response"]},
+    ],
+    skills:["Jenkins","GitHub Actions","Terraform","Ansible","Docker","SonarQube"],
+    pdf:"DevOps_CloudGenZ_Syllabus.pdf"
+  },
+  java:{
+    title:"Java",sub:"Write Once, Run Anywhere",
+    icon:'<i class="ti ti-code"></i>',iconBg:"rgba(237,125,49,.14)",iconColor:"#ed7d31",
+    tagline:"From core Java fundamentals to production-ready Spring Boot microservices deployed on cloud platforms.",
+    modules:[
+      {label:"Core Java",topics:["OOP principles","Collections & Generics","Exception handling","Multithreading & concurrency"]},
+      {label:"Backend Development",topics:["Spring Framework","Spring Boot","REST API design","JPA & Hibernate"]},
+      {label:"Testing & Build",topics:["JUnit & Mockito","Maven & Gradle","Integration testing","Code quality tools"]},
+      {label:"Cloud Deployment",topics:["Dockerising Java apps","Deploy to AWS EC2","RDS integration","CI/CD for Java"]},
+    ],
+    skills:["Spring Boot","Hibernate","Maven","JUnit","Docker","AWS Elastic Beanstalk"],
+    pdf:"Java_CloudGenZ_Syllabus.pdf"
+  },
+  bigdata:{
+    title:"Big Data",sub:"Data Integration, Storage, Analysis & Visualisation",
+    icon:'<i class="ti ti-database"></i>',iconBg:"rgba(26,124,255,.14)",iconColor:"var(--blue)",
+    tagline:"End-to-end big data pipelines — from ingestion and storage to advanced analytics and interactive dashboards.",
+    modules:[
+      {label:"Data Integration",topics:["ETL concepts","Apache Kafka","Flume & Sqoop","Data pipeline design"]},
+      {label:"Storage & Processing",topics:["HDFS & Hadoop","Apache Spark","Hive & HBase","Data lake architecture"]},
+      {label:"Analytics",topics:["Spark SQL","Machine learning with MLlib","Batch vs stream processing","Data quality & governance"]},
+      {label:"Visualisation",topics:["Tableau basics","Power BI","Python (Matplotlib/Seaborn)","Dashboard design principles"]},
+    ],
+    skills:["Hadoop","Apache Spark","Kafka","Hive","Tableau","Python"],
+    pdf:"BigData_CloudGenZ_Syllabus.pdf"
+  }
+};
+
+function sp(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const map={home:0,services:1,about:2,contact:3};
+  document.querySelectorAll('.nl').forEach((l,i)=>l.classList.toggle('active',i===map[id]));
+  if(btn){document.querySelectorAll('.nl').forEach(l=>l.classList.remove('active'));btn.classList.add('active')}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function openModal(key){
+  const s=SERVICES[key];
+  document.getElementById('m-icon').style.background=s.iconBg;
+  document.getElementById('m-icon').style.color=s.iconColor;
+  document.getElementById('m-icon').innerHTML=s.icon;
+  document.getElementById('m-title').textContent=s.title;
+  document.getElementById('m-sub').textContent=s.sub;
+  let html=`<p style="color:var(--muted);font-size:.88rem;line-height:1.7;margin-bottom:1.75rem">${s.tagline}</p>`;
+  s.modules.forEach(m=>{
+    html+=`<div class="mod-section"><h4>${m.label}</h4><div class="topic-grid">`;
+    m.topics.forEach(t=>html+=`<div class="topic-item"><div class="topic-dot" style="background:${s.iconColor}"></div>${t}</div>`);
+    html+=`</div></div>`;
+  });
+  html+=`<div class="mod-section"><h4>Tools & Technologies</h4><div class="mod-tags">`;
+  s.skills.forEach(sk=>html+=`<span class="mod-tag">${sk}</span>`);
+  html+=`</div></div>`;
+  html+=`<div class="pdf-banner">
+    <div class="pdf-info">
+      <div class="pdf-icon"><i class="ti ti-file-type-pdf"></i></div>
+      <div class="pdf-text"><p>Course Syllabus PDF</p><span>${s.pdf}</span></div>
+    </div>
+    <button class="pdf-btn" onclick="dlPdf('${key}')"><i class="ti ti-download"></i>Download PDF</button>
+  </div>`;
+  document.getElementById('m-body').innerHTML=html;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function dlPdf(key){
+  const s=SERVICES[key];
+  const btn=event.target.closest('button');
+  btn.innerHTML='<i class="ti ti-check"></i> Downloaded!';
+  btn.style.background='var(--green)';
+  setTimeout(()=>{btn.innerHTML='<i class="ti ti-download"></i>Download PDF';btn.style.background='';},2500);
+}
+
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeModalOutside(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
+function submitForm(){
+  const m=document.getElementById('smsg');
+  m.style.display='block';
+  setTimeout(()=>m.style.display='none',4000);
+}
+</script>
